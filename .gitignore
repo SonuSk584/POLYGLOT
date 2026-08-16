@@ -1,0 +1,27 @@
+# ===== Secrets - never commit =====
+application.properties
+src/main/resources/application.properties
+firebase-service-account.json
+src/main/resources/firebase-service-account.json
+.env
+.env.local
+frontend/.env
+frontend/.env.local
+
+# ===== Backend build output =====
+target/
+*.class
+
+# ===== Frontend =====
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# ===== IDE =====
+.idea/
+*.iml
+.vscode/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
