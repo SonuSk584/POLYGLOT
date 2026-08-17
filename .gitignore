@@ -25,3 +25,4 @@ frontend/build/
 # ===== OS =====
 .DS_Store
 Thumbs.db
+firebase_base64.txt

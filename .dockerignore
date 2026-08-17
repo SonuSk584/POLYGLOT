@@ -1,0 +1,14 @@
+target/
+.idea/
+*.iml
+.git/
+.gitignore
+frontend/
+README.md
+docker-guide.md
+
+# Never bake secrets into the image
+application.properties
+src/main/resources/application.properties
+firebase-service-account.json
+src/main/resources/firebase-service-account.json
