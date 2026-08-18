@@ -17,25 +17,27 @@ class WebSocketService {
     }
 
     // Build WebSocket URL pointing to Spring Boot backend
-  const backendHost = 'http://localhost:8080';
-  const timestamp = new Date().getTime();
+    const backendHost = import.meta.env.VITE_API_BASE_URL
+      ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '')
+      : 'http://localhost:8080';
+    const timestamp = new Date().getTime();
 
-// ✅ SockJS expects HTTP(S), not WS(S)
-const wsUrl = `${backendHost}/ws?token=${token}&t=${timestamp}`;
+    // ✅ SockJS expects HTTP(S), not WS(S)
+    const wsUrl = `${backendHost}/ws?token=${token}&t=${timestamp}`;
 
-console.log('Attempting SockJS connection to:', wsUrl);
+    console.log('Attempting SockJS connection to:', wsUrl);
 
-this.client = new Client({
-  webSocketFactory: () => {
-    const socket = new SockJS(wsUrl);
-    socket.onopen = () => console.log('✓ SockJS socket opened');
-    socket.onerror = (error) => console.error('✗ SockJS socket error:', error);
-    return socket;
-  },
-  connectHeaders: {
-    Authorization: `Bearer ${token}`,
-    token: token
-  },
+    this.client = new Client({
+      webSocketFactory: () => {
+        const socket = new SockJS(wsUrl);
+        socket.onopen = () => console.log('✓ SockJS socket opened');
+        socket.onerror = (error) => console.error('✗ SockJS socket error:', error);
+        return socket;
+      },
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+        token: token
+      },
       debug: function (str) {
         console.log('STOMP: ' + str);
       },
@@ -75,7 +77,7 @@ this.client = new Client({
         }
       });
       this.subscriptions.clear();
-      
+
       this.client.deactivate();
       this.connected = false;
       console.log('WebSocket disconnected');
@@ -108,7 +110,7 @@ this.client = new Client({
     this.subscriptions.set(destination, subscription);
     return subscription;
   }
-  
+
   // Subscribe to user-specific destinations
   subscribeToUser(userId, destination, callback) {
     const userDestination = `/user/${userId}${destination}`;
@@ -138,7 +140,7 @@ this.client = new Client({
       destination,
       body: JSON.stringify(body)
     });
-    
+
     return true;
   }
 
